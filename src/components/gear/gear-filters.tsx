@@ -38,6 +38,16 @@ export function GearFilters({ categories }: { categories: Category[] }) {
   const availability = searchParams.get("availability") === "true"
   const sort = `${searchParams.get("sortBy") ?? "createdAt"}:${searchParams.get("sortOrder") ?? "desc"}`
 
+  // Base UI's <Select.Value> shows the raw value unless the Root is given an
+  // items map, which it uses to resolve the matching label to display.
+  const categoryItems: Record<string, string> = {
+    all: "All categories",
+    ...Object.fromEntries(categories.map((c) => [c.id, c.name])),
+  }
+  const sortItems: Record<string, string> = Object.fromEntries(
+    SORT_OPTIONS.map((o) => [o.value, o.label])
+  )
+
   function navigate(overrides: Record<string, string | null>) {
     const params = new URLSearchParams(searchParams.toString())
     for (const [key, value] of Object.entries(overrides)) {
@@ -113,6 +123,7 @@ export function GearFilters({ categories }: { categories: Category[] }) {
         <Label>Category</Label>
         <Select
           value={categoryId}
+          items={categoryItems}
           onValueChange={(value) =>
             navigate({ categoryId: value === "all" ? null : value })
           }
@@ -135,6 +146,7 @@ export function GearFilters({ categories }: { categories: Category[] }) {
         <Label>Sort by</Label>
         <Select
           value={sort}
+          items={sortItems}
           onValueChange={(value) => {
             const [sortBy, sortOrder] = (value ?? "createdAt:desc").split(":")
             navigate({ sortBy, sortOrder })

@@ -26,8 +26,20 @@ import { useCheckAvailability } from "@/hooks/use-rentals"
 import { useCreateRental } from "@/hooks/use-rentals"
 import { cn, formatCurrency, formatDate } from "@/lib/utils"
 
+// Send the calendar day the user actually clicked as UTC midnight, not
+// local midnight converted to UTC -- the latter shifts the date backward
+// by a day in any negative-UTC-offset timezone, which can make a date the
+// user picked look like it's already in the past to the backend's
+// `start < now` check.
 function toIsoDate(date: Date) {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate()).toISOString()
+  return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())).toISOString()
+}
+
+function tomorrowStartOfDay() {
+  const d = new Date()
+  d.setDate(d.getDate() + 1)
+  d.setHours(0, 0, 0, 0)
+  return d
 }
 
 export function RentNowPanel({
@@ -130,7 +142,7 @@ export function RentNowPanel({
               numberOfMonths={1}
               selected={range}
               onSelect={setRange}
-              disabled={{ before: new Date(new Date().setHours(0, 0, 0, 0)) }}
+              disabled={{ before: tomorrowStartOfDay() }}
               className="w-fit"
             />
           </PopoverContent>

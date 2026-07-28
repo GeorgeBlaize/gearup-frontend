@@ -10,6 +10,7 @@ import { Button, buttonVariants } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -87,20 +88,26 @@ export function Navbar() {
                 <span className="max-w-32 truncate">{user.name}</span>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel className="flex flex-col gap-1">
-                  <span className="truncate">{user.email}</span>
-                  <Badge variant="secondary" className="w-fit text-[10px] uppercase">
-                    {user.role}
-                  </Badge>
-                </DropdownMenuLabel>
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel className="flex flex-col gap-1">
+                    <span className="truncate">{user.email}</span>
+                    <Badge variant="secondary" className="w-fit text-[10px] uppercase">
+                      {user.role}
+                    </Badge>
+                  </DropdownMenuLabel>
+                </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem render={<Link href={dashboardHref} />}>
-                  Dashboard
-                </DropdownMenuItem>
+                <DropdownMenuGroup>
+                  <DropdownMenuItem render={<Link href={dashboardHref} />}>
+                    Dashboard
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => logout()} variant="destructive">
-                  Log out
-                </DropdownMenuItem>
+                <DropdownMenuGroup>
+                  <DropdownMenuItem onClick={() => logout()} variant="destructive">
+                    Log out
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
