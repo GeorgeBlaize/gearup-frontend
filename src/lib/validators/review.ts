@@ -2,7 +2,7 @@ import { z } from "zod"
 
 // Mirrors gearup-backend/src/validators/review.validator.ts `create` rules.
 export const reviewSchema = z.object({
-  rating: z.coerce
+  rating: z
     .number()
     .int()
     .min(1, "Rating must be between 1 and 5")

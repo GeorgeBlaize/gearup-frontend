@@ -109,6 +109,7 @@ export interface RentalItem {
     images: string[]
     pricePerDay?: number
     category?: { id: string; name: string }
+    reviews?: { id: string }[]
   }
 }
 
