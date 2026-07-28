@@ -16,10 +16,27 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const title = "GearUp — Rent Sports & Outdoor Gear Instantly";
+const description =
+  "Browse, rent, and manage sports and outdoor equipment rentals with GearUp.";
+
 export const metadata: Metadata = {
-  title: "GearUp — Rent Sports & Outdoor Gear Instantly",
-  description:
-    "Browse, rent, and manage sports and outdoor equipment rentals with GearUp.",
+  title: {
+    default: title,
+    template: "%s · GearUp",
+  },
+  description,
+  openGraph: {
+    title,
+    description,
+    type: "website",
+    siteName: "GearUp",
+  },
+  twitter: {
+    card: "summary",
+    title,
+    description,
+  },
 };
 
 export default function RootLayout({
