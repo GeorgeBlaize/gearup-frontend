@@ -10,7 +10,7 @@ export const gearSchema = z.object({
     .string()
     .min(10, "Description must be between 10 and 1000 characters")
     .max(1000, "Description must be between 10 and 1000 characters"),
-  pricePerDay: z.coerce
+  pricePerDay: z
     .number({ message: "Price per day must be a positive number" })
     .positive("Price per day must be a positive number"),
   categoryId: z.string().min(1, "Category is required"),
@@ -22,16 +22,14 @@ export const gearSchema = z.object({
   condition: z.enum(["Excellent", "Good", "Fair", "Poor"], {
     message: "Condition is required",
   }),
-  quantity: z.coerce
+  quantity: z
     .number()
     .int()
     .min(1, "Quantity must be at least 1")
     .max(100, "Quantity cannot exceed 100"),
   images: z
     .array(z.string().url("Each image must be a valid URL"))
-    .max(10, "Maximum 10 images allowed")
-    .optional()
-    .default([]),
+    .max(10, "Maximum 10 images allowed"),
   availability: z.boolean().optional(),
 })
 
