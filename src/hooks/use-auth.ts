@@ -28,7 +28,7 @@ export function useMe(enabled: boolean) {
   })
 }
 
-export function useLogin() {
+export function useLogin(redirectTo?: string) {
   const setAuth = useAuthStore((state) => state.setAuth)
   const router = useRouter()
   const queryClient = useQueryClient()
@@ -40,11 +40,12 @@ export function useLogin() {
       queryClient.invalidateQueries()
       toast.success(`Welcome back, ${user.name}`)
       router.push(
-        user.role === "ADMIN"
-          ? "/dashboard/admin"
-          : user.role === "PROVIDER"
-            ? "/dashboard/provider"
-            : "/dashboard/customer"
+        redirectTo ||
+          (user.role === "ADMIN"
+            ? "/dashboard/admin"
+            : user.role === "PROVIDER"
+              ? "/dashboard/provider"
+              : "/dashboard/customer")
       )
     },
     onError: (error) => {
