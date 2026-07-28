@@ -23,6 +23,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import { ThemeToggle } from "@/components/layout/theme-toggle"
 import { useAuth, useLogout } from "@/hooks/use-auth"
 import { cn } from "@/lib/utils"
 import type { UserRole } from "@/types/api"
@@ -75,6 +76,7 @@ export function Navbar() {
         </nav>
 
         <div className="hidden items-center gap-2 md:flex">
+          <ThemeToggle />
           {isAuthenticated && user ? (
             <DropdownMenu>
               <DropdownMenuTrigger
@@ -125,12 +127,12 @@ export function Navbar() {
           )}
         </div>
 
-        <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger
-            render={<Button variant="ghost" size="icon" className="md:hidden" />}
-          >
-            <Menu className="size-5" />
-          </SheetTrigger>
+        <div className="flex items-center gap-1 md:hidden">
+          <ThemeToggle />
+          <Sheet open={open} onOpenChange={setOpen}>
+            <SheetTrigger render={<Button variant="ghost" size="icon" />}>
+              <Menu className="size-5" />
+            </SheetTrigger>
           <SheetContent side="right" className="w-72">
             <SheetHeader>
               <SheetTitle className="flex items-center gap-2">
@@ -196,7 +198,8 @@ export function Navbar() {
               )}
             </div>
           </SheetContent>
-        </Sheet>
+          </Sheet>
+        </div>
       </div>
     </header>
   )
