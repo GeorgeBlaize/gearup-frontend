@@ -6,6 +6,12 @@ import { buttonVariants } from "@/components/ui/button"
 import { gearApi } from "@/lib/api/gear"
 import { cn } from "@/lib/utils"
 
+// Without this, "/" has no dynamic inputs (no searchParams, no cookies), so
+// Next.js prerenders it once at build time and serves that same HTML
+// forever -- new/removed/edited gear would never show up here even though
+// the data changed, until the next deploy. Revalidate periodically instead.
+export const revalidate = 60
+
 export default async function HomePage() {
   const { gear } = await gearApi
     .list({ limit: 8, sortBy: "createdAt", sortOrder: "desc" })
