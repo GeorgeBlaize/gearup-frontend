@@ -26,7 +26,9 @@ export default function PayOrderPage({
   const requested = useRef(false)
 
   const needsPayment =
-    !!rental && rental.status === "CONFIRMED" && !rental.payment
+    !!rental &&
+    rental.status === "CONFIRMED" &&
+    rental.payment?.status !== "COMPLETED"
 
   useEffect(() => {
     if (needsPayment && !requested.current) {
@@ -87,12 +89,11 @@ export default function PayOrderPage({
             confirm it first (current status: {rental.status}).
           </AlertDescription>
         </Alert>
-      ) : rental.payment ? (
+      ) : createPayment.isError ? (
         <Alert variant="destructive">
           <AlertDescription>
-            A payment attempt already exists for this order (status:{" "}
-            {rental.payment.status}). Please contact support if you believe this
-            is an error.
+            Couldn&apos;t start the payment. Please try again, or contact
+            support if this keeps happening.
           </AlertDescription>
         </Alert>
       ) : createPayment.isPending || !createPayment.data ? (
