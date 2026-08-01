@@ -67,8 +67,7 @@ export function StripeCheckoutForm({
 
     if (paymentIntent?.status === "succeeded") {
       await confirmPayment.mutateAsync(paymentIntent.id).catch(() => {
-        // Backend sync failed but Stripe already succeeded -- the webhook
-        // (or a retry) will reconcile it; still route to success.
+       
       })
       toast.success("Payment successful!")
       router.push(`/payment/success?rentalId=${rentalId}`)
